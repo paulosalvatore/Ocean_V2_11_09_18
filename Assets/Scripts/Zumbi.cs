@@ -12,6 +12,9 @@ public class Zumbi : MonoBehaviour {
 	public float velocidade = 0.35f;
 
 	private bool andando = false;
+	private bool morto = false;
+
+	public int vidas = 2;
 
 	private GameObject jogador;
 
@@ -40,16 +43,33 @@ public class Zumbi : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Projétil"))
+		if (!morto && andando && other.CompareTag("Projétil"))
 		{
 			Destroy(other.gameObject);
-			Matar();
+			vidas--;
+
+			if (vidas > 0)
+			{
+				AplicarDano();
+			}
+			else
+			{
+				Matar();
+			}
 		}
+	}
+
+	private void AplicarDano()
+	{
+		andando = false;
+		animator.SetTrigger("Damage");
+		Invoke("Andar", delayAndar);
 	}
 
 	private void Matar()
 	{
 		andando = false;
+		morto = true;
 		animator.SetTrigger("Die");
 	}
 }

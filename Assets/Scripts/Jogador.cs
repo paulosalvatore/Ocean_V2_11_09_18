@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Jogador : MonoBehaviour {
 
@@ -25,5 +26,13 @@ public class Jogador : MonoBehaviour {
 		GameObject projetil = Instantiate(projetilPrefab);
 		projetil.transform.position = Camera.main.transform.position;
 		projetil.transform.forward = Camera.main.transform.forward;
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.CompareTag("Zumbi"))
+		{
+			SceneManager.LoadScene(0);
+		}
 	}
 }
